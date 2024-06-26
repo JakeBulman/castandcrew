@@ -1,5 +1,6 @@
 # ignore the venv
 venv/
+castandcrew/static/admin/img
 
 #ignore filetypes
 *.pyc

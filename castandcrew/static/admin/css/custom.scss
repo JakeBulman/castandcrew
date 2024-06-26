@@ -1,0 +1,31 @@
+
+// required to get $orange variable
+@import "../../../../node_modules/bootstrap/scss/_functions"; 
+@import "../../../../node_modules/bootstrap/scss/_variables";
+
+$dark: #082663;
+$primary: #5465f8;
+$info: #A9A3FF;
+$light: #E1E1FF;
+$secondary: #4B5057;
+$danger: #F66173;
+$warning: #F78B59;
+$success: #00BDB6;
+
+// merge with existing $theme-colors map
+$theme-colors: map-merge($theme-colors, (
+    "light": $light,
+    "dark": $dark,
+    "primary": $primary,
+    "info": $info,
+    "danger": $danger,
+    "warning": $warning,
+    "success": $success,
+    "secondary": $secondary
+));
+
+$font-family-base: 'Roboto', sans-serif;
+
+// set changes
+//@import "bootstrap";
+@import "../../../../node_modules/bootstrap/scss/bootstrap";

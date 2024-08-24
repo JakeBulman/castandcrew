@@ -9,7 +9,7 @@ def test_view(request):
 	return render(request, "main/base.html", context=context)
 
 def user_login(request):
-	if request.mmethod == 'POST':
+	if request.method == 'POST':
 		form = LoginForm(request.POST)
 		if form.is_valid():
 			clean_form = form.cleaned_data

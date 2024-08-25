@@ -15,7 +15,24 @@ import os
 from os.path import join, dirname
 from dotenv import load_dotenv, find_dotenv
 
+import json
+import boto3
+
 load_dotenv(find_dotenv())
+
+
+
+#Load all env variables from secrets manager
+secret_name = os.getenv('SECRET_LOCATION')
+region_name = 'eu-north-1'
+session = boto3.session.Session()
+client = session.client(
+    service_name='secretsmanager',
+    region_name=region_name
+)
+secrets = client.get_secret_value(SecretId=secret_name)
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +42,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY'),
+SECRET_KEY = json.loads(secrets['SecretString'])['SECRET_KEY'],
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -98,10 +115,10 @@ WSGI_APPLICATION = 'castandcrew.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
+        'NAME': json.loads(secrets['SecretString'])['DB_NAME'],
+        'USER': json.loads(secrets['SecretString'])['POSTGRES_USER'],
+        'PASSWORD': json.loads(secrets['SecretString'])['DB_PASSWORD'],
+        'HOST': json.loads(secrets['SecretString'])['DB_HOST'],
         'PORT': '5432',
     }
 }
@@ -121,15 +138,15 @@ COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
 )
 
-USING_S3 = os.getenv('USING_S3') == 'True'
+USING_S3 = json.loads(secrets['SecretString'])['USING_S3'] == 'True'
 
 if USING_S3:
     print('S3 is on')
-    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_SIGNATURE_NAME = os.getenv('AWS_S3_SIGNATURE_NAME')
-    AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+    AWS_ACCESS_KEY_ID = json.loads(secrets['SecretString'])['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = json.loads(secrets['SecretString'])['AWS_SECRET_ACCESS_KEY']
+    AWS_STORAGE_BUCKET_NAME = json.loads(secrets['SecretString'])['AWS_STORAGE_BUCKET_NAME']
+    AWS_S3_SIGNATURE_NAME = json.loads(secrets['SecretString'])['AWS_S3_SIGNATURE_NAME']
+    AWS_S3_REGION_NAME = json.loads(secrets['SecretString'])['AWS_S3_REGION_NAME']
     AWS_S3_FILE_OVERWRITE = False
     AWS_DEFAULT_ACL = 'public-read'
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'

@@ -20,12 +20,10 @@ import boto3
 
 load_dotenv(find_dotenv())
 
-
-
 #Load all env variables from secrets manager
 secret_name = os.getenv('SECRET_LOCATION')
 region_name = 'eu-north-1'
-session = boto3.session.Session()
+session = boto3.session.Session(aws_access_key_id=os.getenv('AWS_SERVER_PUBLIC_KEY'),aws_secret_access_key=os.getenv('AWS_SERVER_SECRET_KEY'))
 client = session.client(
     service_name='secretsmanager',
     region_name=region_name

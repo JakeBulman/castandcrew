@@ -30,7 +30,7 @@ client = session.client(
 )
 secrets = client.get_secret_value(SecretId=secret_name)
 
-
+print(secrets)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,8 +40,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = json.loads(secrets['SecretString'])['SECRET_KEY'],
-SECRET_KEY = 'django-insecure--52g3t0u4&u2bvfd(ir7(lhm4yvg_13aj37$jnyl025f$8$(pe'
+SECRET_KEY = json.loads(secrets['SecretString'])['SECRET_KEY'],
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -62,7 +62,7 @@ INSTALLED_APPS = [
 
     #other apps
     'compressor',
-    # 'storages'
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -111,16 +111,16 @@ WSGI_APPLICATION = 'castandcrew.wsgi.application'
 # }
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': json.loads(secrets['SecretString'])['DB_NAME'],
-#         'USER': json.loads(secrets['SecretString'])['POSTGRES_USER'],
-#         'PASSWORD': json.loads(secrets['SecretString'])['DB_PASSWORD'],
-#         'HOST': json.loads(secrets['SecretString'])['DB_HOST'],
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': json.loads(secrets['SecretString'])['DB_NAME'],
+        'USER': json.loads(secrets['SecretString'])['POSTGRES_USER'],
+        'PASSWORD': json.loads(secrets['SecretString'])['DB_PASSWORD'],
+        'HOST': json.loads(secrets['SecretString'])['DB_HOST'],
+        'PORT': '5432',
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -137,29 +137,29 @@ COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
 )
 
-# USING_S3 = json.loads(secrets['SecretString'])['USING_S3'] == 'True'
+USING_S3 = json.loads(secrets['SecretString'])['USING_S3'] == 'True'
 
-# if USING_S3:
-#     print('S3 is on')
-#     AWS_ACCESS_KEY_ID = json.loads(secrets['SecretString'])['AWS_ACCESS_KEY_ID']
-#     AWS_SECRET_ACCESS_KEY = json.loads(secrets['SecretString'])['AWS_SECRET_ACCESS_KEY']
-#     AWS_STORAGE_BUCKET_NAME = json.loads(secrets['SecretString'])['AWS_STORAGE_BUCKET_NAME']
-#     AWS_S3_SIGNATURE_NAME = json.loads(secrets['SecretString'])['AWS_S3_SIGNATURE_NAME']
-#     AWS_S3_REGION_NAME = json.loads(secrets['SecretString'])['AWS_S3_REGION_NAME']
-#     AWS_S3_FILE_OVERWRITE = False
-#     AWS_DEFAULT_ACL = 'public-read'
-#     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-#     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-#     AWS_S3_VERITY = True
-#     AWS_LOCATION = 'static'
-#     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
-#     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-#     STATIC_ROOT = 'storages.backends.s3boto3.S3Boto3Storage'
-# else:
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+if USING_S3:
+    print('S3 is on')
+    AWS_ACCESS_KEY_ID = json.loads(secrets['SecretString'])['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = json.loads(secrets['SecretString'])['AWS_SECRET_ACCESS_KEY']
+    AWS_STORAGE_BUCKET_NAME = json.loads(secrets['SecretString'])['AWS_STORAGE_BUCKET_NAME']
+    AWS_S3_SIGNATURE_NAME = json.loads(secrets['SecretString'])['AWS_S3_SIGNATURE_NAME']
+    AWS_S3_REGION_NAME = json.loads(secrets['SecretString'])['AWS_S3_REGION_NAME']
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    AWS_S3_VERITY = True
+    AWS_LOCATION = 'static'
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STATIC_ROOT = 'storages.backends.s3boto3.S3Boto3Storage'
+else:
+    STATIC_URL = 'static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

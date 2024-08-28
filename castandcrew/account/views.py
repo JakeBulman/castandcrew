@@ -2,11 +2,14 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm
+from django.contrib.auth.models import User 
 
 
 def test_view(request):
-	context = {}
-	return render(request, "main/base.html", context=context)
+	qs = User.objects.all()
+	print(qs)
+	context = {"qs":qs}
+	return render(request, "account/user_list.html", context=context)
 
 def user_login(request):
 	if request.method == 'POST':
@@ -27,3 +30,4 @@ def user_login(request):
 	else:
 		form = LoginForm()
 	return render(request, 'account/login.html', {'form':form})
+

@@ -30,8 +30,6 @@ client = session.client(
 )
 secrets = client.get_secret_value(SecretId=secret_name)
 
-print(secrets)
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -48,6 +46,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost','13.51.169.173','lokey.co.uk','www.lokey.co.uk']
 
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
 
 # Application definition
 
@@ -62,7 +63,8 @@ INSTALLED_APPS = [
 
     #other apps
     'compressor',
-    'storages'
+    'storages',
+    'bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -133,9 +135,6 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
-COMPRESS_PRECOMPILERS = (    
-    ('text/x-scss', 'django_libsass.SassCompiler'),
-)
 
 USING_S3 = json.loads(secrets['SecretString'])['USING_S3'] == 'True'
 
@@ -159,7 +158,35 @@ else:
     STATIC_URL = 'static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+COMPRESS_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+COMPRESS_URL = STATIC_URL
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+COMPRESS_PRECOMPILERS = (    
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+COMPRESS_ENABLED = True
+COMPRESS_ROOT = STATIC_ROOT
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.CSSMinFilter',
+    'compressor.filters.template.TemplateFilter'
+]
+COMPRESS_JS_FILTERS = [
+    'compressor.filters.jsmin.JSMinFilter',
+]
+COMPRESS_PRECOMPILERS = (
+    ('module', 'compressor_toolkit.precompilers.ES6Compiler'),
+    ('css', 'compressor_toolkit.precompilers.SCSSCompiler'),
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

@@ -3,14 +3,14 @@
 @import "../../../../node_modules/bootstrap/scss/_functions"; 
 @import "../../../../node_modules/bootstrap/scss/_variables";
 
-$dark: #082663;
-$primary: #5465f8;
-$info: #A9A3FF;
-$light: #E1E1FF;
-$secondary: #4B5057;
-$danger: #F66173;
-$warning: #F78B59;
-$success: #00BDB6;
+$dark: #001031;
+$primary: #54caf8;
+$info: #a3c8ff;
+$light: #cbcbff;
+$secondary: #3e3d81;
+$danger: #ce3446;
+$warning: #ff9b6d;
+$success: #6bbd00;
 
 // merge with existing $theme-colors map
 $theme-colors: map-merge($theme-colors, (
@@ -24,7 +24,7 @@ $theme-colors: map-merge($theme-colors, (
     "secondary": $secondary
 ));
 
-$font-family-base: 'Roboto', sans-serif;
+$font-family-base: 'Red Hat Display', sans-serif;
 
 // set changes
 //@import "bootstrap";

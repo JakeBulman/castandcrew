@@ -4,7 +4,10 @@
     <a class="navbar-brand fs-3" href="{% url 'login' %}">LOKEY</a>
     <div class="navbar-nav">
     {% if request.user.is_authenticated %}
-    <a style="border-radius: 20px; width: 200px; text-align:center" class="nav-link bg-danger border-dark mx-2 text-white" href="{% url 'logout' %}">Logout: {{ request.user.username }}</a>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button style="border-radius: 20px; width: 200px; text-align:center" class="nav-link bg-danger border-dark mx-2 text-white" type="submit">Logout: {{ request.user.username }}</button>
+      </form>
     {% else %}
     <a style="border-radius: 20px; width: 200px; text-align:center" class="nav-link bg-danger border-dark mx-2 text-white" href="{% url 'login' %}">Login</a>
     {% endif %}

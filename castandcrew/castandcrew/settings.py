@@ -64,7 +64,6 @@ INSTALLED_APPS = [
     #other apps
     'compressor',
     'storages',
-    'bootstrap5'
 ]
 
 MIDDLEWARE = [

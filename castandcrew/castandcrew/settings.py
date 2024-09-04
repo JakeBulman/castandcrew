@@ -157,6 +157,9 @@ else:
     STATIC_URL = 'static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 COMPRESS_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 COMPRESS_URL = STATIC_URL
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)

@@ -9,7 +9,8 @@
         <button style="border-radius: 20px; width: 200px; text-align:center" class="nav-link bg-danger border-dark mx-2 text-white" type="submit">Logout: {{ request.user.username }}</button>
       </form>
     {% else %}
-    <a style="border-radius: 20px; width: 200px; text-align:center" class="nav-link bg-danger border-dark mx-2 text-white" href="{% url 'login' %}">Login</a>
+    <a style="border-radius: 20px; width: 200px; text-align:center" class="nav-link bg-danger border-dark mx-2 text-white" href="{% url 'register' %}">Sign Up</a>
+    <a style="border-radius: 20px; width: 200px; text-align:center" class="nav-link bg-danger border-dark mx-2 text-white" href="{% url 'login' %}">Login</a>    
     {% endif %}
     </div>
   </div>

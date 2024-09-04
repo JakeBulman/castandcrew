@@ -25,6 +25,19 @@
 </head>
 <body style="background-color:#e8e8f8;">
     {% include 'main/main_nav.html' %}
+    {% if messages %}
+      {% for message in messages %}
+        {% if message.tags == "success" %}
+          <div class="bg-success text-center">
+        {% else %}
+          <div class="bg-warning text-center">
+        {% endif %}
+        <div class="{{ message.tags }}">
+          {{ message|safe }}
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
     {% block content %}
         
     {% endblock %}

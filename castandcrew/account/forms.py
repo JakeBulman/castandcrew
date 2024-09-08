@@ -1,6 +1,10 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Profile
+from PIL import Image, ImageDraw, ImageFilter
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.files.base import ContentFile
+from io import BytesIO
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -38,3 +42,47 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['stage_name', 'date_of_birth', 'website_link', 'user_about', 'profile_picture']
+
+    def clean_profile_picture(self):
+        im = Image.open(self.cleaned_data['profile_picture'])
+        thumb_width = 200
+
+        def crop_center(pil_img, crop_width, crop_height):
+            img_width, img_height = pil_img.size
+            return pil_img.crop(((img_width - crop_width) // 2,
+                                (img_height - crop_height) // 2,
+                                (img_width + crop_width) // 2,
+                                (img_height + crop_height) // 2))
+        
+        def crop_max_square(pil_img):
+            return crop_center(pil_img, min(pil_img.size), min(pil_img.size))
+        
+        def mask_circle_transparent(pil_img, blur_radius, offset=0):
+            offset = blur_radius * 2 + offset
+            mask = Image.new("L", pil_img.size, 0)
+            draw = ImageDraw.Draw(mask)
+            draw.ellipse((offset, offset, pil_img.size[0] - offset, pil_img.size[1] - offset), fill=255)
+            mask = mask.filter(ImageFilter.GaussianBlur(blur_radius))
+            result = pil_img.copy()
+            result.putalpha(mask)
+            return result
+        
+        im_square = crop_max_square(im).resize((thumb_width, thumb_width), Image.LANCZOS)
+        im_thumb = mask_circle_transparent(im_square, 1)
+        buffer = BytesIO()
+        im_thumb.save(fp=buffer, format='PNG')
+        im_final = ContentFile(buffer.getvalue())
+
+        image_field = self.instance.profile_picture
+        image_name = 'profile_picture.png'
+        image_field.delete(save=True)
+        image_field.save(image_name, InMemoryUploadedFile(
+                                            im_final,
+                                            None,
+                                            image_name,
+                                            'image/png',
+                                            im_final.tell,
+                                            None,
+                                            None
+                                            )
+                        )

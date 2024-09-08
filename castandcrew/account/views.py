@@ -10,7 +10,6 @@ from castandcrew.settings import MEDIA_ROOT, MEDIA_URL
 @login_required
 def dashboard(request):
 	profile = Profile.objects.get(user_id=request.user)
-	print(profile)
 	return render(request, "account/dashboard.html",{'section':'dashboard','profile':profile,'media_root': MEDIA_ROOT, 'media_url': MEDIA_URL})
 
 def register(request):

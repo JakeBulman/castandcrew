@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
@@ -15,4 +16,14 @@ class Profile(models.Model):
     #portfolio pictures as a seperate model? (this allows for title and description)
     #portfolio audio as a seperate model? (this allows for title and description)
     #portfolio video as a seperate model? (this allows for title and description)
+
+    class Meta:
+        ordering = ['stage_name']
+        indexes = [models.Index(fields=['stage_name'])]
+
+    def __str__(self):
+        return self.stage_name
+    
+    def get_absolute_url(self):
+        return reverse('profile_details',args=[self.id])
 

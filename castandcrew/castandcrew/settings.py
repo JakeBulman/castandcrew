@@ -100,6 +100,18 @@ WSGI_APPLICATION = 'castandcrew.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+from sshtunnel import SSHTunnelForwarder
+
+# Connect to a server using the ssh keys. See the sshtunnel documentation for using password authentication
+ssh_tunnel = SSHTunnelForwarder(
+    (json.loads(secrets['SecretString'])['EC2_HOST'],22),
+    ssh_private_key=json.loads(secrets['SecretString'])['ssh_private_key'],
+    ssh_username=json.loads(secrets['SecretString'])['SSH_USERNAME'],
+    remote_bind_address=(json.loads(secrets['SecretString'])['DB_HOST'], 5432),
+    local_bind_address=('127.0.0.1',5432)
+)
+ssh_tunnel.start()
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -112,14 +124,25 @@ WSGI_APPLICATION = 'castandcrew.wsgi.application'
 # }
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': json.loads(secrets['SecretString'])['DB_NAME'],
+#         'USER': json.loads(secrets['SecretString'])['POSTGRES_USER'],
+#         'PASSWORD': json.loads(secrets['SecretString'])['DB_PASSWORD'],
+#         'HOST': json.loads(secrets['SecretString'])['DB_HOST'],
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'localhost',
+        'PORT': ssh_tunnel.local_bind_port,
         'NAME': json.loads(secrets['SecretString'])['DB_NAME'],
         'USER': json.loads(secrets['SecretString'])['POSTGRES_USER'],
         'PASSWORD': json.loads(secrets['SecretString'])['DB_PASSWORD'],
-        'HOST': json.loads(secrets['SecretString'])['DB_HOST'],
-        'PORT': '5432',
     }
 }
 

@@ -15,7 +15,6 @@ def dashboard(request):
 def register(request):
 	if request.method == 'POST':
 		user_form = UserRegistrationForm(request.POST)
-		print(user_form)
 		if user_form.is_valid():
 			#create user obj but don't save until after password validation
 			new_user = user_form.save(commit=False)
@@ -44,3 +43,11 @@ def edit(request):
 		user_form = UserEditForm(instance=request.user,prefix="user")
 		profile_form = ProfileEditForm(instance=request.user.profile,prefix="profile")
 	return render(request,'account/edit.html',{'user_form':user_form,'profile_form':profile_form})
+
+def profile_search(request):
+	profiles = Profile.objects.all()
+	return render(request, 'account/profile_search.html',{'section':'dashboard','profiles':profiles})
+
+def profile_details(request, id=None):
+	profile = Profile.objects.get(id=id)
+	return render(request, 'account/profile_details.html',{'section':'dashboard','profile':profile})

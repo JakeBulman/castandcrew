@@ -8,8 +8,8 @@
             <div class="col"></div>
             <div class="col">
                 <h1 class="text-dark text-center mb-5">Discipline List</h1>
-                <p class="text-dark text-center"></p>
-                <div class="text-center">   
+                <p class="text-dark"></p>
+                <div class="">   
                     {% for discipline in disciplines %}
                         {% include 'account/discipline_list_recursive.html' with discipline=discipline %}
                     {% endfor %}

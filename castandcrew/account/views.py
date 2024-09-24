@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User 
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
-from .models import Profile
+from .models import Profile, Discipline
 from django.contrib import messages
 from castandcrew.settings import MEDIA_ROOT, MEDIA_URL
 
@@ -51,3 +51,7 @@ def profile_search(request):
 def profile_details(request, id=None):
 	profile = Profile.objects.get(id=id)
 	return render(request, 'account/profile_details.html',{'section':'dashboard','profile':profile})
+
+def discipline_list(request):
+	disciplines = Discipline.objects.filter(parent_discipline__isnull=True)
+	return render(request, 'account/discipline_list.html',{'section':'discipline_list','disciplines':disciplines})

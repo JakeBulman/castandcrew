@@ -1,0 +1,7 @@
+<p class="text-dark text-center">{{ discipline.discipline_name }}</p>
+
+{% if discipline.child_discipline %}
+    {% for child_discipline in discipline.child_discipline.all %}
+        {% include 'account/discipline_list_recursive.html' with discipline=child_discipline %}
+    {% endfor %}
+{% endif %}

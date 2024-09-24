@@ -19,5 +19,8 @@ path('edit/', views.edit, name='edit'),
 
 #user views
 path('profile-search/', views.profile_search, name='profile_search'),
-path('<int:id>/', views.profile_details, name='profile_details')
+path('<int:id>/', views.profile_details, name='profile_details'),
+
+#other views
+path('discipline-list/', views.discipline_list, name='discipline_list'),
 ]

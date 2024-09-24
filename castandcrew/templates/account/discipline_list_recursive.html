@@ -1,7 +1,9 @@
 
 
-<ul style="padding-left: 30px">
-<li class="text-dark">{{ discipline.discipline_name }}</li>
+<ul style="padding-left: 30px; padding-top: 20px">
+<li class="text-dark">
+    {% if discipline.discipline_icon %}<img src="{{ discipline.discipline_icon.url }}" style="height: 50px; width:50px" />{% endif %}
+    {{ discipline.discipline_name }}</li>
 
 {% if discipline.child_discipline %}
     {% for child_discipline in discipline.child_discipline.all %}

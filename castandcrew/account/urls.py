@@ -16,6 +16,7 @@ path('password-change/', auth_views.PasswordChangeView.as_view(), name='password
 path('password-change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
 path('register/', views.register, name='register'),
 path('edit/', views.edit, name='edit'),
+path('edit-disciplines/', views.edit_disciplines, name='edit_disciplines'),
 
 #user views
 path('profile-search/', views.profile_search, name='profile_search'),

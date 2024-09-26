@@ -39,7 +39,7 @@ class Discipline(models.Model):
 class ProfileDisciplines(models.Model):
     #intermediate table saves relationships between disciplines and user profiles
     profile = models.ForeignKey(Profile,related_name='profile_disciplines', on_delete=models.CASCADE)
-    discipline = models.ForeignKey(Profile,related_name='discipline_profiles', on_delete=models.CASCADE)
+    discipline = models.ForeignKey(Discipline,related_name='discipline_profiles', on_delete=models.CASCADE)
     skill_level = models.PositiveSmallIntegerField(
         choices=(
             (1,"Beginner"),

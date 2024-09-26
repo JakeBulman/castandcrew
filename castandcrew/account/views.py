@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User 
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
-from .models import Profile, Discipline
+from .models import Profile, Discipline, ProfileDisciplines
 from django.contrib import messages
 from castandcrew.settings import MEDIA_ROOT, MEDIA_URL
 
@@ -40,9 +40,29 @@ def edit(request):
 		else:
 			messages.error(request, 'Error updating your profile')
 	else:
+		try:
+			Profile.objects.get(user_id=request.user)
+		except:
+			Profile.objects.create(user=request.user)
 		user_form = UserEditForm(instance=request.user,prefix="user")
 		profile_form = ProfileEditForm(instance=request.user.profile,prefix="profile")
 	return render(request,'account/edit.html',{'user_form':user_form,'profile_form':profile_form})
+
+@login_required
+def edit_disciplines(request):
+	if request.method == 'POST':
+		discipline_id = request.POST.get('new_discipline')
+		ProfileDisciplines.objects.create(
+			profile = Profile.objects.get(user_id=request.user),
+			discipline = Discipline.objects.get(id=discipline_id),
+			skill_level = 3,
+			profile_discipline_order = 1
+		)
+
+	profile = Profile.objects.get(user_id=request.user)
+	disciplines = Discipline.objects.all()
+	return render(request,'account/edit_disciplines.html',{'profile':profile,'disciplines':disciplines})
+
 
 def profile_search(request):
 	profiles = Profile.objects.all()

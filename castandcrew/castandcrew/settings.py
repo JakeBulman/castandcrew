@@ -44,7 +44,7 @@ SECRET_KEY = json.loads(secrets['SecretString'])['SECRET_KEY'],
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost','13.51.169.173','lokey.co.uk','www.lokey.co.uk']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost','13.51.169.173','gigma.co.uk','www.gigma.co.uk']
 
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login'

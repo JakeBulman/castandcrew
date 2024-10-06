@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% block title %}User List{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col"></div>
+        <div class="col text-center">
+            <h1 class="text-dark text-center mb-5">Dashboard</h1>
+            {% if events %}
+                {% for event in events %}
+                    {% if event.event_picture.url != '' %}
+                        <img src="{{ event.event_picture.url }}" style="height: 100px; width:100px" />
+                        EVENT
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+
+{% endblock %}

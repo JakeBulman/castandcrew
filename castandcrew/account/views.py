@@ -1,6 +1,4 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User 
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile, Discipline, ProfileDisciplines

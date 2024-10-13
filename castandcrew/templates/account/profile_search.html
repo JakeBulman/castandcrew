@@ -4,8 +4,8 @@
 {% block content %}
 <style>
     .card:hover{
-        border-color:blue;
-        box-shadow: 0 0 10px 2px rgba(0, 0, 255, 0.5);
+        border-color:#FF6B35;
+        box-shadow: 0 0 10px 2px #FF6B35;
     }
     .card{
         transition: all .5s;
@@ -14,7 +14,7 @@
 <div class="container">
     <div class="col">
         <div class="row mt-5">
-            <h1 class="text-dark text-center">Profiles</h1>
+            <h1 class="text-light text-center">Profiles</h1>
         </div>
         <form class="row m-5"> 
             <div class="col-8">
@@ -29,14 +29,14 @@
         <div class="row row-cols-2">
             {% for profile in profiles %}
             <div class="col">
-                <div class="card text-start my-2">
+                <div class="card text-start text-white bg-secondary my-2">
                     <div class="row">
                         <div class="col-4 d-flex align-items-center justify-content-center">
                             <a href="{% url 'profile_details' profile.id %}" class="stretched-link"><img src="{{ profile.profile_picture.url }}" style="height: 100px; width:100px;"/></a>
                         </div>
                         <div class="col-8">
                             <div class="card-body">
-                                <h5 class="card-title">{{ profile.stage_name }}</h5>
+                                <h5 class="card-title text-light">{{ profile.stage_name }}</h5>
                                 <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                             </div>
                         </div>

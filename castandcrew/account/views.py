@@ -8,7 +8,10 @@ from castandcrew.settings import MEDIA_ROOT, MEDIA_URL
 @login_required
 def dashboard(request):
 	profile = Profile.objects.get(user_id=request.user)
-	return render(request, "account/dashboard.html",{'section':'dashboard','profile':profile,'media_root': MEDIA_ROOT, 'media_url': MEDIA_URL})
+	my_profile = None
+	if request.user.is_authenticated:
+		my_profile = Profile.objects.get(user_id=request.user)
+	return render(request, "account/dashboard.html",{'section':'dashboard','profile':profile,'media_root': MEDIA_ROOT, 'media_url': MEDIA_URL, 'my_profile':my_profile})
 
 def register(request):
 	if request.method == 'POST':
@@ -23,7 +26,10 @@ def register(request):
 			return render(request,'account/register_done.html',{'new_user': new_user})
 	else:
 		user_form = UserRegistrationForm()
-	return render(request,'account/register.html',{'user_form':user_form})
+	my_profile = None
+	if request.user.is_authenticated:
+		my_profile = Profile.objects.get(user_id=request.user)
+	return render(request,'account/register.html',{'user_form':user_form, 'my_profile':my_profile})
 
 
 @login_required
@@ -44,7 +50,10 @@ def edit(request):
 			Profile.objects.create(user=request.user)
 		user_form = UserEditForm(instance=request.user,prefix="user")
 		profile_form = ProfileEditForm(instance=request.user.profile,prefix="profile")
-	return render(request,'account/edit.html',{'user_form':user_form,'profile_form':profile_form})
+	my_profile = None
+	if request.user.is_authenticated:
+		my_profile = Profile.objects.get(user_id=request.user)
+	return render(request,'account/edit.html',{'user_form':user_form,'profile_form':profile_form, 'my_profile':my_profile})
 
 @login_required
 def edit_disciplines(request):
@@ -59,17 +68,29 @@ def edit_disciplines(request):
 
 	profile = Profile.objects.get(user_id=request.user)
 	disciplines = Discipline.objects.all()
-	return render(request,'account/edit_disciplines.html',{'profile':profile,'disciplines':disciplines})
+	my_profile = None
+	if request.user.is_authenticated:
+		my_profile = Profile.objects.get(user_id=request.user)
+	return render(request,'account/edit_disciplines.html',{'profile':profile,'disciplines':disciplines, 'my_profile':my_profile})
 
 
 def profile_search(request):
 	profiles = Profile.objects.all()
-	return render(request, 'account/profile_search.html',{'section':'dashboard','profiles':profiles})
+	my_profile = None
+	if request.user.is_authenticated:
+		my_profile = Profile.objects.get(user_id=request.user)
+	return render(request, 'account/profile_search.html',{'section':'dashboard','profiles':profiles, 'my_profile':my_profile})
 
 def profile_details(request, id=None):
 	profile = Profile.objects.get(id=id)
-	return render(request, 'account/profile_details.html',{'section':'dashboard','profile':profile})
+	my_profile = None
+	if request.user.is_authenticated:
+		my_profile = Profile.objects.get(user_id=request.user)
+	return render(request, 'account/profile_details.html',{'section':'dashboard','profile':profile, 'my_profile':my_profile})
 
 def discipline_list(request):
 	disciplines = Discipline.objects.filter(parent_discipline__isnull=True)
-	return render(request, 'account/discipline_list.html',{'section':'discipline_list','disciplines':disciplines})
+	my_profile = None
+	if request.user.is_authenticated:
+		my_profile = Profile.objects.get(user_id=request.user)
+	return render(request, 'account/discipline_list.html',{'section':'discipline_list','disciplines':disciplines, 'my_profile':my_profile})

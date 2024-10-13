@@ -1,17 +1,33 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-white border-bottom sticky-top nav-fill">
+<nav class="navbar navbar-expand-lg navbar-light bg-secondary sticky-top nav-fill">
   <div class="container-fluid">
-    <a class="navbar-brand fs-3" href="{% url 'profile_search' %}">GIGMA</a>
+    <a class="navbar-brand fs-3 text-light" href="{% url 'profile_search' %}">
+      <img class="d-inline-block align-text-top" src="{% static 'admin/img/favicon-50.png' %}" style="height: 40px; width:40px; padding:0px;"/>
+      GIGMA
+    </a>
+    
+    <a class="navbar-brand fs-3 text-light" href="{% url 'profile_search' %}"></a>
     <div class="navbar-nav">
+    <a style="text-align:center" class="nav-link bg-secondary border-dark me-3 text-white" href="{% url 'event_dashboard' %}">Find Events</a>
+    <a style="text-align:center" class="nav-link bg-secondary border-dark me-3 text-white" href="{% url 'profile_search' %}">Find Artists</a>
     {% if request.user.is_authenticated %}
-      <a style="border-radius: 20px; width: 200px; text-align:center" class="nav-link bg-danger border-dark mx-2 text-white" href="{% url 'edit' %}">Edit Account</a>
-      <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button style="border-radius: 20px; width: 200px; text-align:center" class="nav-link bg-danger border-dark mx-2 text-white" type="submit">Logout: {{ request.user.username }}</button>
-      </form>
+      <li class="nav-item dropstart me-4" style="height: 40px; width:40px; padding:0px;">
+        <a class="nav-link dropdown-toggle" style="height: 40px; width:40px; padding:0px;" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img  src="{{ my_profile.profile_picture.url }}" style="height: 40px; width:40px;"/>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><h6 class="dropdown-header">Account Options</h6></li>
+          <li><a class="dropdown-item" href="{% url 'profile_dashboard' %}">My Account</a></li>
+          <li><a class="dropdown-item" href="{% url 'edit' %}">Edit Account</a></li>
+          <li><form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="dropdown-item" type="submit">Logout</button>
+          </form></li>
+        </ul>
+      </li>
     {% else %}
-    <a style="border-radius: 20px; width: 200px; text-align:center" class="nav-link bg-danger border-dark mx-2 text-white" href="{% url 'register' %}">Sign Up</a>
-    <a style="border-radius: 20px; width: 200px; text-align:center" class="nav-link bg-danger border-dark mx-2 text-white" href="{% url 'login' %}">Login</a>    
+    <a style="text-align:center" class="nav-link bg-secondary border-dark mx-2 text-white" href="{% url 'register' %}">Sign Up</a>
+    <a style="text-align:center" class="nav-link bg-secondary border-dark mx-2 text-white" href="{% url 'login' %}">Login</a>    
     {% endif %}
     </div>
   </div>

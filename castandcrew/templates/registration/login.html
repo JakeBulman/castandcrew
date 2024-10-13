@@ -6,11 +6,11 @@
         <div class="row mt-5">
             <div class="col"></div>
             <div class="col">
-                <h1 class="text-dark text-center mb-5">Login Page</h1>
+                <h1 class="text-light text-center mb-5">Login Page</h1>
                 {% if form.errors %}
-                    <p class="text-dark text-center">You're username and password did not match. Please try again.</p>
+                    <p class="text-light text-center">You're username and password did not match. Please try again.</p>
                 {% else %}
-                    <p class="text-dark text-center">Please use the following form to log in. If you don't have an account, <a href="{% url 'register' %}">register here</a>.</p>
+                    <p class="text-light text-center">Please use the following form to log in. If you don't have an account, <a href="{% url 'register' %}">register here</a>.</p>
                 {% endif %}
                 <div class="login-form text-center">   
                     <form action="{% url 'login' %}" method = "post">

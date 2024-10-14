@@ -29,7 +29,7 @@
         <div class="row row-cols-2">
             {% for profile in profiles %}
             <div class="col">
-                <div class="card text-start text-white bg-secondary my-2">
+                <div class="card text-start text-white bg-secondary border-bottom border-primary my-2">
                     <div class="row">
                         <div class="col-4 d-flex align-items-center justify-content-center">
                             <a href="{% url 'profile_details' profile.id %}" class="stretched-link"><img src="{{ profile.profile_picture.url }}" style="height: 100px; width:100px;"/></a>

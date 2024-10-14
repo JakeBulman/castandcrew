@@ -47,7 +47,7 @@ def login_view(request):
 			messages.success(request, 'Logged in successfully')
 			return redirect('landing_page')
 		else:
-			messages.error(request, 'Logged in Fail')
+			messages.error(request, 'Login Failed')
 	my_profile = None
 	if request.user.is_authenticated:
 		my_profile = Profile.objects.get(user_id=request.user)

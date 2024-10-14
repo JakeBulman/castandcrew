@@ -10,6 +10,7 @@ def dashboard(request):
 	events=None
 	if Event.objects.filter(event_organiser=request.user).exists():
 		events = Event.objects.filter(event_organiser=request.user)
+	
 	my_profile = None
 	if request.user.is_authenticated:
 		my_profile = Profile.objects.get(user_id=request.user)
@@ -17,6 +18,16 @@ def dashboard(request):
         #this is the "public" user
 		my_profile = Profile.objects.get(user_id=9)
 	return render(request, "events/dashboard.html",{'section':'dashboard','events':events,'media_root': MEDIA_ROOT, 'media_url': MEDIA_URL, 'my_profile':my_profile})
+
+def event_search(request):
+	events = Event.objects.all()
+	my_profile = None
+	if request.user.is_authenticated:
+		my_profile = Profile.objects.get(user_id=request.user)
+	if request.user.id == None:
+        #this is the "public" user
+		my_profile = Profile.objects.get(user_id=9)
+	return render(request, 'events/event_search.html',{'section':'dashboard','events':events, 'my_profile':my_profile})
 
 def event_details(request, id=None):
 	event = Event.objects.get(id=id)

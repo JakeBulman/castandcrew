@@ -11,15 +11,23 @@
         transition: all .5s;
     }
 </style>
-<div class="container">
-    <div class="col">
-        <div class="row mt-5">
-            <h1 class="text-light text-center">{{ event.event_name }}</h1>
-        </div>               
+<div class="container">            
         <div class="row">
-            <img src="{{ event.event_picture.url }}" style="height: 200px; width:200px; padding: 0px"/>
+            <div class="card text-white bg-secondary border-primary shadow-lg mt-5" style="padding-left: 0;">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="{{ event.event_picture.url }}" class="img-fluid rounded-start">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h3 class="card-title text-light">{{ event.event_name }}</h3>
+                      <p class="card-text text-white">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                      <p class="card-text"><small class="text-white">Last updated 3 mins ago</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
         </div>
-    </div>
 </div>
 
 {% endblock %}

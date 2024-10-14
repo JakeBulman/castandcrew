@@ -1,6 +1,6 @@
 {% extends 'main/base.html' %}
 
-{% block title %}Artists{% endblock %}
+{% block title %}Events{% endblock %}
 {% block content %}
 <style>
     .card:hover{
@@ -14,11 +14,11 @@
 <div class="container">
     <div class="col">
         <div class="row mt-5">
-            <h1 class="text-light text-center">Artists</h1>
+            <h1 class="text-light text-center">Events</h1>
         </div>
         <form class="row m-5"> 
             <div class="col-8">
-                <input name="enquiry_id" id="enquiry_id" type="text" class="form-control" placeholder="Search for a profile here...">
+                <input name="enquiry_id" id="enquiry_id" type="text" class="form-control" placeholder="Search for an event here...">
             </div>
             <div class="col-4">
                 <button type="submit" class="btn btn-outline-primary w-100">Search</button>
@@ -26,16 +26,16 @@
         </form>
                 
         <div class="row row-cols-2">
-            {% for profile in profiles %}
+            {% for event in events %}
             <div class="col">
                 <div class="card text-start text-white bg-secondary border-bottom border-primary my-2">
                     <div class="row">
                         <div class="col-4 d-flex align-items-center justify-content-center">
-                            <a href="{% url 'profile_details' profile.id %}" class="stretched-link"><img src="{{ profile.profile_picture.url }}" style="height: 100px; width:100px;"/></a>
+                            <a href="{% url 'event_details' event.id %}" class="stretched-link"><img src="{{ event.event_picture.url }}" style="height: 100px; width:100px;"/></a>
                         </div>
                         <div class="col-8">
                             <div class="card-body">
-                                <h5 class="card-title text-light">{{ profile.stage_name }}</h5>
+                                <h5 class="card-title text-light">{{ event.event_name }}</h5>
                                 <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                             </div>
                         </div>

@@ -8,7 +8,7 @@
     
     <a class="navbar-brand fs-3 text-light" href="{% url 'profile_search' %}"></a>
     <div class="navbar-nav">
-    <a style="text-align:center" class="nav-link bg-secondary border-dark me-3 text-white" href="{% url 'event_dashboard' %}">Find Events</a>
+    <a style="text-align:center" class="nav-link bg-secondary border-dark me-3 text-white" href="{% url 'event_search' %}">Find Events</a>
     <a style="text-align:center" class="nav-link bg-secondary border-dark me-3 text-white" href="{% url 'profile_search' %}">Find Artists</a>
     {% if request.user.is_authenticated %}
       <li class="nav-item dropstart me-4" style="height: 40px; width:40px; padding:0px;">
@@ -17,7 +17,9 @@
           <img  src="{{ my_profile.profile_picture.url }}" style="height: 40px; width:40px;"/>
           {% endif %}
         </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <ul class="dropdown-menu dropdown-menu-dark bg-dark border border-primary" aria-labelledby="navbarDropdown">
+          <li><h6 class="dropdown-header">Quick Links</h6></li>
+          <li><a class="dropdown-item" href="{% url 'event_dashboard' %}">My Events</a></li>
           <li><h6 class="dropdown-header">Account Options</h6></li>
           <li><a class="dropdown-item" href="{% url 'profile_dashboard' %}">My Account</a></li>
           <li><a class="dropdown-item" href="{% url 'edit' %}">Edit Account</a></li>

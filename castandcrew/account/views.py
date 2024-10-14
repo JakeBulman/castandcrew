@@ -5,6 +5,8 @@ from .models import Profile, Discipline, ProfileDisciplines
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout, login
 from castandcrew.settings import MEDIA_ROOT, MEDIA_URL
+from django.urls import is_valid_path
+from urllib.parse import urlparse
 
 @login_required
 def dashboard(request):
@@ -39,13 +41,21 @@ def register(request):
 	return render(request,'account/register.html',{'form':form, 'my_profile':my_profile})
 
 def login_view(request):
+	next_url = request.GET.get('next', '/')
+
 	if request.method == 'POST':
 		user = authenticate(request, username=request.POST["username"],
                             password=request.POST["password"])
 		if user:
 			login(request, user)
 			messages.success(request, 'Logged in successfully')
-			return redirect('landing_page')
+            # Ensure next_url is safe or default to home page
+			next_url = request.POST.get('next', next_url)
+			parsed_url = urlparse(next_url)
+			if not parsed_url.netloc and is_valid_path(next_url):
+				return redirect(next_url)
+			return redirect('/')
+
 		else:
 			messages.error(request, 'Login Failed')
 	my_profile = None
@@ -54,7 +64,7 @@ def login_view(request):
 	if request.user.id == None:
 		#this is the "public" user
 		my_profile = Profile.objects.get(user_id=9)
-	return render(request, 'registration/login.html',{'my_profile':my_profile})
+	return render(request, 'registration/login.html',{'my_profile':my_profile, 'next': next_url})
 
 def logout_view(request):
 	logout(request)

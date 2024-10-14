@@ -46,7 +46,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost','13.51.169.173','gigma.co.uk','www.gigma.co.uk']
 
-LOGIN_REDIRECT_URL = 'landing_page'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 

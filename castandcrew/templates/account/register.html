@@ -1,22 +1,28 @@
 {% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}Create an account{% endblock %}
 {% block content %}
-    <div class="container">
-        <div class="row mt-5">
-            <div class="col"></div>
-            <div class="col">
-                <h1 class="text-light text-center mb-5">Create an account</h1>
-                <p class="text-light text-center">Use the form below to sign up.</p>
-                <div class="text-center">   
-                    <form  method="post">
-                        {{ user_form.as_p }}
-                        {% csrf_token %}
-                        <p><input style="border-radius: 20px; width: 200px; text-align:center" class="bg-secondary text-light mx-2" type="submit" value="Create Account"></p>
-                    </form>
+<style>
+    .form-text{
+        color:#FF6B35;
+    }
+</style>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col"></div>
+        <div class="col text-center">
+            <div class="card text-white bg-secondary border-primary shadow-lg" style="width: 50rem;">
+                <div class="card-header">
+                    <h6 class="card-text">Registration Form</h6>
+                </div>
+                <div class="card-body">
+                    {% crispy form %}
                 </div>
             </div>
-            <div class="col"></div>
         </div>
+        <div class="col"></div>
     </div>
+</div>
+    
 {% endblock %}

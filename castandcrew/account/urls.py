@@ -8,8 +8,8 @@ path('', views.dashboard, name='profile_dashboard'),
 
 #login/logout URLs
 path('dashboard/', views.dashboard, name='profile_dashboard'),
-path('login/', auth_views.LoginView.as_view(), name='login'),
-path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+path('login/', views.login_view, name='login'),
+path('logout/', views.logout_view, name='logout'),
 
 #change password urls
 path('password-change/', auth_views.PasswordChangeView.as_view(), name='password_change'),

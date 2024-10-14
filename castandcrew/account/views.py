@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile, Discipline, ProfileDisciplines
 from django.contrib import messages
+from django.contrib.auth import authenticate, logout, login
 from castandcrew.settings import MEDIA_ROOT, MEDIA_URL
 
 @login_required
@@ -18,25 +19,52 @@ def dashboard(request):
 
 def register(request):
 	if request.method == 'POST':
-		user_form = UserRegistrationForm(request.POST)
-		if user_form.is_valid():
+		form = UserRegistrationForm(request.POST)
+		if form.is_valid():
 			#create user obj but don't save until after password validation
-			new_user = user_form.save(commit=False)
-			new_user.set_password(user_form.cleaned_data['password'])
+			new_user = form.save(commit=False)
+			new_user.set_password(form.cleaned_data['password'])
 			new_user.save()
 			#Create user profile attached to this account
 			Profile.objects.create(user=new_user)
 			return render(request,'account/register_done.html',{'new_user': new_user})
 	else:
-		user_form = UserRegistrationForm()
+		form = UserRegistrationForm()
 	my_profile = None
 	if request.user.is_authenticated:
 		my_profile = Profile.objects.get(user_id=request.user)
 	if request.user.id == None:
         #this is the "public" user
 		my_profile = Profile.objects.get(user_id=9)
-	return render(request,'account/register.html',{'user_form':user_form, 'my_profile':my_profile})
+	return render(request,'account/register.html',{'form':form, 'my_profile':my_profile})
 
+def login_view(request):
+	if request.method == 'POST':
+		user = authenticate(request, username=request.POST["username"],
+                            password=request.POST["password"])
+		if user:
+			login(request, user)
+			messages.success(request, 'Logged in successfully')
+			return redirect('landing_page')
+		else:
+			messages.error(request, 'Logged in Fail')
+	my_profile = None
+	if request.user.is_authenticated:
+		my_profile = Profile.objects.get(user_id=request.user)
+	if request.user.id == None:
+		#this is the "public" user
+		my_profile = Profile.objects.get(user_id=9)
+	return render(request, 'registration/login.html',{'my_profile':my_profile})
+
+def logout_view(request):
+	logout(request)
+	my_profile = None
+	if request.user.is_authenticated:
+		my_profile = Profile.objects.get(user_id=request.user)
+	if request.user.id == None:
+		#this is the "public" user
+		my_profile = Profile.objects.get(user_id=9)
+	return render(request, 'registration/logged_out.html',{'my_profile':my_profile})
 
 @login_required
 def edit(request):

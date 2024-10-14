@@ -5,8 +5,20 @@ from PIL import Image, ImageDraw, ImageFilter
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files.base import ContentFile
 from io import BytesIO
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 
 class UserRegistrationForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-profileEdit'
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'edit_disciplines'
+
+        self.helper.add_input(Submit('submit', 'Submit'))
+
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Repeat Password', widget=forms.PasswordInput)
 

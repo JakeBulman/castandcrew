@@ -21,8 +21,14 @@
                   <div class="col-md-8">
                     <div class="card-body">
                       <h3 class="card-title text-light">{{ event.event_name }}</h3>
-                      <p class="card-text text-white">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                      <p class="card-text"><small class="text-white">Last updated 3 mins ago</small></p>
+                      
+                      <h5 class="card-title text-light">Event Description</h5>
+                      <p class="card-text text-white">{{ event.event_description }}</p>
+                      <p class="card-text text-white">{{ event.event_private_description }}</p>
+                      <p class="card-text"><small class="text-white">{{ event.event_location }} - {{ event.event_website }}</small></p>
+
+                      <h5 class="card-title text-light">Event Staff</h5>
+                      <p class="card-text text-white">Organiser - <img src="{{ event.event_organiser.profile.profile_picture.url }}"  style="height: 40px; width:40px; padding:0px;"> - {{ event.event_organiser }}</p>
                     </div>
                   </div>
                 </div>
